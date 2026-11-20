@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --background: #f2fbf6;
+  --foreground: #102a20;
+  --aurora-emerald: #d1fae5;
+  --aurora-lime: #ecfccb;
+  --aurora-teal: #ccfbf1;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  min-height: 100%;
+  background: var(--background);
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+body::before,
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+}
+
+body::before {
+  background-image: radial-gradient(
+    circle,
+    rgb(16 185 129 / 10%) 0.8px,
+    transparent 0.9px
+  );
+  background-position: center top;
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse at center, #000 8%, transparent 88%);
+}
+
+body::after {
+  inset: -18%;
+  background-image:
+    radial-gradient(ellipse at 18% 18%, var(--aurora-emerald) 0%, transparent 38%),
+    radial-gradient(ellipse at 78% 24%, var(--aurora-lime) 0%, transparent 40%),
+    radial-gradient(ellipse at 52% 78%, var(--aurora-teal) 0%, transparent 42%);
+  background-size: 120% 120%;
+  filter: blur(56px);
+  opacity: 0.8;
+  animation: aurora-drift 32s ease-in-out infinite alternate;
+}
+
+.glass-panel {
+  border: 1px solid rgb(167 243 208 / 80%);
+  border-radius: 1rem;
+  background: rgb(255 255 255 / 75%);
+  box-shadow: 0 8px 30px rgb(16 185 129 / 8%);
+  backdrop-filter: blur(24px);
+  transition:
+    transform 240ms ease,
+    box-shadow 240ms ease,
+    border-color 240ms ease;
+}
+
+.glass-panel:hover {
+  transform: translateY(-2px);
+  border-color: rgb(110 231 183 / 90%);
+  box-shadow: 0 14px 36px rgb(16 185 129 / 12%);
+}
+
+.form-input {
+  width: 100%;
+  border: 1px solid rgb(167 243 208 / 80%);
+  border-radius: 0.75rem;
+  background: rgb(255 255 255 / 72%);
+  padding: 0.75rem 1rem;
+  color: #0f172a;
+  font-size: 0.875rem;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+.form-input:focus {
+  border-color: #34d399;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(167 243 208 / 45%);
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  background-image: linear-gradient(to right, #059669, #14b8a6);
+  padding: 0.75rem 1.25rem;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 10px 24px rgb(16 185 129 / 20%);
+  transition:
+    filter 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.primary-button:hover:not(:disabled) {
+  filter: brightness(0.95);
+  box-shadow: 0 12px 28px rgb(16 185 129 / 28%);
+}
+
+.primary-button:focus-visible {
+  outline: 4px solid rgb(167 243 208 / 70%);
+  outline-offset: 2px;
+}
+
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.5%, 1%, 0) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
